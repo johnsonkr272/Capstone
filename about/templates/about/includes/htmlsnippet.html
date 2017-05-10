@@ -1,0 +1,8 @@
+{% block content %}
+<form action="{% url 'model_form_upload' %}" method="POST" enctype="multipart/form-data" >
+    {% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit" style="padding:10px" value="Upload File" name="submit">Submit</button>
+</form>
+{% endblock %}
+

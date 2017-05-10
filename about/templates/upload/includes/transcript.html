@@ -1,0 +1,66 @@
+<!DOCTYPE html>	
+<script src="https://cdn.jsdelivr.net/g/howler.js@2.0.3(howler.min.js+howler.js)"></script>
+<script>
+			function playWord(start, end) {
+				var sound = new Howl({
+					src: ['/media/media/{{filename}}'],
+					html5: true,
+					sprite: {
+						word: [start * 1000, (end * 1000) - (start * 1000)]
+					}
+				});
+				sound.play('word');
+			};
+		function add() {
+			var ul = document.getElementById("playlist");
+			var li = document.createElement("li");
+			var text = document.createTextNode(arguments[0] + ' ');			
+			
+			li.innerHtml = text
+			ul.appendChild(text);
+		}
+</script>
+<style>
+		table {
+			width: 300px;
+			border-collapse: collapse;
+		}
+		tr:nth-child(even) {
+			background-color: #dddddd;
+		}
+		td {
+			text-align: center;
+		}
+</style>
+<body>
+	<audio controls>
+		<source src="/media/media/{{filename}}" type="audio/wav">
+		<source src="/media/media/{{filename}}" type="audio/ogg">
+		<source src="/media/media/{{filename}}" type="audio/flac">
+		Your browser does not support the audio element.
+	</audio>
+	<p>
+	<div id="soundboard" style="float:left;">
+		<table> 
+			<tr>
+				<th>Word</th>
+				<th>Start Time (s)</th>
+				<th>End Time (s)</th>
+			</tr>   	
+			{% for i in json_out %}
+			<tr>
+				<td><button id="word{{forloop.counter}}" onclick="playWord({{i.1}}, {{i.2}})" oncontextmenu="add('{{i.0}}');return false;">{{ i.0 }}</button></td> 
+				<td id="start{{forloop.counter}}">{{ i.1 }} </td>
+				<td id="end{{forloop.counter}}">{{ i.2 }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	<div id="audiotable" style="float:left;">
+		<ul id="playlist">
+		</ul>
+	</div>
+	</p>
+</body>
+</html>
+
